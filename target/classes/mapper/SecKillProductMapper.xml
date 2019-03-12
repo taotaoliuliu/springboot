@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aebiz.mapper.SecKillProductMapper">
+	<!--开启二级缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->    <!--根据id查询用户详情 -->
+	<select id="getById" parameterType="string" resultType="com.aebiz.entity.product.SecKillProduct">
+		SELECT *
+		FROM product_kill WHERE uuid=#{uuid}
+	</select>
+
+	<select id="getByCondition" parameterType="Object" resultType="com.aebiz.entity.product.SecKillProduct">
+		SELECT * FROM product_kill where 1=1 
+		<!-- $不带'' # 是带的  -->
+						<if test="name != null and name != ''">
+					and  (name like '%${name}%')
+						</if>
+			
+				<if test="startTime != null and startTime != ''">
+					and  createTime &gt; #{startTime} and createTime &lt; #{endTime}
+						</if>
+						<if test="null != listUuids and listUuids.size != 0">
+						and productUuid in 
+							 <foreach collection="listUuids" index="index" item="item" open="(" separator="," close=")">
+          					  #{item}
+       					 </foreach>
+						
+						</if>
+						
+	</select>
+
+	<insert id="add" parameterType="Object">
+		insert into product_kill(uuid,
+		productUuid,
+		killPrice,
+		startTime,
+		endTime,
+		createTime
+		)
+		values(#{uuid},#{productUuid},#{killPrice},#{startTime},#{endTime},#{createTime})
+
+
+	</insert>
+
+	<update id="updateAd" parameterType="Object">
+		update product_main set name=#{name} , content=#{content} where uuid=#{uuid}
+
+	</update>
+
+
+	<delete id="delete" parameterType="Object">
+
+		delete from product_main where uuid='${uuid}'
+
+
+	</delete>
+
+
+
+</mapper>

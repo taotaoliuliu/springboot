@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+    {# 不转义变量输出 #}  
+      姓名：{* string.upper(name) *}<br/>  
+      {# 转义变量输出 #}  
+      简介：{{description}}<br/>  
+      {# 可以做一些运算 #}  
+      年龄: {* age + 111 *}<br/>  
+      {# 循环输出 #}  
+      爱好：  
+      {% for i, v in ipairs(hobby) do %}  
+         {% if i > 1 then %}，{% end %}  
+         {* v *}  
+      {% end %}<br/>  
+  
+      成绩：  
+      {% local i = 1; %}  
+      {% for k, v in pairs(score) do %}  
+         {% if i > 1 then %}，{% end %}  
+         {* k *} = {* v *}  
+         {% i = i + 1 %}  
+      {% end %}<br/>  
+      成绩2：  
+      {% for i = 1, #score2 do local t = score2[i] %}  
+         {% if i > 1 then %}，{% end %}  
+          {* t.name *} = {* t.score *}  
+      {% end %}<br/>  
+      {# 中间内容不解析 #}  
+      {-raw-}{(file)}{-raw-}  
+</body>
+
+
+local template = require("resty.template")  
+  
+local context = {  
+    title = "测试",  
+    name = "张三",  
+    description = "<script>alert(1);</script>",  
+    age = 20,  
+    hobby = {"电影", "音乐", "阅读"},  
+    score = {语文 = 90, 数学 = 80, 英语 = 70},  
+    score2 = {  
+        {name = "语文", score = 90},  
+        {name = "数学", score = 80},  
+        {name = "英语", score = 70},  
+    }  
+}  
+</body>
+</html>
+  
+  
+  

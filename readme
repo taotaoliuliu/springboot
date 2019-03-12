@@ -1,0 +1,119 @@
+1 集成 elementUI vue.js
+2 集成redis vue.js
+
+3 lua+redis+http+ngnix 后台服务代码 
+
+4 注意storm+kafka jar的版本要和kafka运行的版本一致############
+
+
+5 加入秒杀 
+	1 秒杀结束
+	2排队中
+	3 秒杀成功
+	4 排队之后 秒杀失败
+	5 
+	
+	
+	流程 
+	1 限流（库存*n为限流总量##待处理消息个数比较redisUtil.llen） 
+	2判断是否在处理队列中 （reids hset）
+	3 将消息加入到队列中 （rpush） 
+	4 出队列（blpop 阻塞式  保证安全） 减库存 如果库存不够直接返回失败！生成token
+	5 用户下单时候验证token 否者没有资格  如果用户3m不下单 token失效
+	
+6 加入在线聊天 	
+
+7 加入分布式事务 
+
+8 加入页面h+UI
+
+
+####################################
+
+2018-10-22 加入了 h+UI
+
+####################################
+
+2018-10-23 websocket  可以推动消息给用户
+
+###################
+2018-10-24 加入了 在线聊天  目前已经给完成 特别注意的地方是 		   
+
+ message.setSender(currentsession+"");  //这个地方一定要是字符串 传int值后台收不到  要和后台的类型对应 
+ 
+ 过程
+ 
+ 1 先建立连接 
+ 2 页面通过连接发送消息给websocket
+ 3 connect 连接以后 会把session存到map里面   同时 session 里面回话的channel 里面这个发送信息
+ 4  
+ 
+###############
+
+加入kafka+storm  HotProductTopology  这个是测试通过的  StormKafkaTopo 也是测试通过的
+
+
+####################################
+2019-1-2
+加入了elementui 位置src/main/resources/static/html/ad/ad.html
+模板访问：http://localhost:8080/static/html/element/index.html
+####################
+
+2019-01-03 RedisHelper 里面有 redis+lua 入库 测试锁库的脚本
+
+###########
+测试各种表单提交
+http://localhost:8080/static/html/test/add.html
+###############
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############################################################################
+  stompClient.connect({name:"lsl2"}, function (frame) {     important   name 是后台认证的用户   需要加  
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/ricky/topic/greetings', function (greeting) {   //subscribe('/ricky/topic/greetings'  这个地方就不在需要加了@@@@@ 
+                    showGreeting(JSON.parse(greeting.body).content);
+                });
+            });
+            
+            
+            
+            /*########################
+         * 用户可以订阅来自"/topic"和"/user"的消息，
+         * 在Controller中，可通过@SendTo注解指明发送目标，这样服务器就可以将消息发送到订阅相关消息的客户端
+         *
+         * 在本Demo中，使用topic来达到群发效果，使用user进行一对一发送
+         *
+         * 客户端只可以订阅这两个前缀的主题
+         */
+        config.enableSimpleBroker("/topic", "/user");
+
+
+#######################################
+先删缓存 再更新数据库
+
+缓存数据库不一致 可以用 读写放到内存队列中去
+
+####################################
+
+
+
+
+	

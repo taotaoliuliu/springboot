@@ -1,0 +1,145 @@
+server {   
+ 
+    listen       9090;
+    server_name  192.168.137.87;
+ 	
+
+	#first match ngx location  
+set $template_location "/templates";  
+#then match root read file  
+set $template_root "/usr/java/openresty/example/templates";  
+
+
+location /lua_template_sayhello {
+    default_type 'text/html';
+    lua_code_cache on;
+    content_by_lua_file /usr/java/openresty/example/lua/test2.lua;
+}
+  
+location /templates {  
+     internal;  
+     alias /usr/java/openresty/example/templates2;  
+}  
+
+
+location /lua_template_1 {  
+    default_type 'text/html';  
+    lua_code_cache on;  
+    content_by_lua_file /usr/java/openresty/example/lua/testtem.lua;  
+}   
+
+location /lua_template_3 {
+    default_type 'text/html';
+    lua_code_cache on;
+    content_by_lua_file /usr/java/openresty/example/lua/33.lua;
+}
+
+
+ location /lua_redis {  
+    default_type 'text/html';  
+    lua_code_cache on;  
+    content_by_lua_file /usr/java/openresty/example/lua/test_redis_basic.lua;  
+}
+
+ location /lua_mysql {
+    default_type 'text/html';
+    lua_code_cache on;
+    content_by_lua_file /usr/java/openresty/example/lua/test_mysql.lua;
+}
+
+
+
+
+location /lua_http {
+    default_type 'text/html';
+    lua_code_cache on;
+    content_by_lua_file /usr/java/openresty/example/lua/test_http.lua;
+}
+
+
+    location ~ /ad/(.*) {
+        default_type 'text/html';
+        charset utf-8;
+        lua_code_cache on;
+        content_by_lua_file /usr/java/openresty/example/lua/ad.lua;       
+    }
+
+
+
+location ~ /proxy/(.*) {  
+   internal;  
+   proxy_pass http://backend/$1$is_args$args;  
+          proxy_set_header Host $host;   
+          proxy_set_header X-Real-IP $remote_addr;   
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;   
+          client_max_body_size 10m;   
+          client_body_buffer_size 128k;   
+          proxy_connect_timeout 10;   
+          proxy_send_timeout 10;   
+          proxy_read_timeout 10;   
+          proxy_buffer_size 4k;   
+          proxy_buffers 4 32k;   
+          proxy_busy_buffers_size 64k;   
+          proxy_temp_file_write_size 64k;  
+}
+location /lua_http_2 { 
+   default_type 'text/html';  
+   lua_code_cache on;  
+   content_by_lua_file /usr/java/openresty/example/lua/test_http_2.lua;  
+}  
+
+
+
+
+
+
+
+
+
+ location /baidu {
+        content_by_lua_block {
+            local http = require("resty.http")
+            local httpc = http.new()
+            local res, err = httpc:request_uri("http://www.kjson.com/")
+            if res.status == ngx.HTTP_OK then
+                ngx.say(res.body)
+		ngx.say('aaaaaaa')
+            else
+	    ngx.say('aaaaaaa')
+	    ngx.say(err)
+               -- ngx.exit(res.status)
+            end
+        }
+    }
+
+ location /simpleinterface {
+
+    content_by_lua '
+
+      -- For simple singleshot requests, use the URI interface.
+      local http = require "resty.http"
+      local httpc = http.new()
+      local res, err = httpc:request_uri("http://www.kjson.com/", {
+        method = "POST",
+        body = "a=1&b=2",
+        headers = {
+          ["Content-Type"] = "application/x-www-form-urlencoded",
+        }
+      })
+
+      if not res then
+        ngx.say("failed to request: ", err)
+        return
+      end
+
+      ngx.status = res.status
+
+      ngx.say(res.body)
+    ';
+  }
+
+
+
+
+}
+

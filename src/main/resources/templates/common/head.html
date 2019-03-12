@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonHeader(title)">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title th:text="${title}"></title>
+
+<style type="text/css">
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    background-color: #F5F5F6;
+    border-bottom-width: 1px;
+}
+</style>
+<!-- Bootstrap -->
+<link rel="stylesheet" th:href="@{/static/css/bootstrap-3.3.7/css/bootstrap.min.css}" />
+
+      <link rel="stylesheet" href="/static/css/main.css" />
+
+  <link href="/static/plugins/daterangepicker-2.1.25/daterangepicker.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/plugins/jqgrid/ui.jqgrid-bootstrap.css">
+  
+  
+<script src="/static/js/jquery.1.10.2.min.js"></script>
+ 
+  <script src="/static/plugins/bootstrap-3.3.7/js/bootstrap.js"></script>
+  <script src="/static/plugins/bootbox/jquery.bootbox.js"></script>
+<!--vue-->
+
+  <script src="/static/js/vue.js"></script>
+	<script src="/static/js/vue-resource.js"></script>
+
+<script src="/static/js/main.js"></script>
+
+
+<script type="text/javascript" src="/static/plugins/daterangepicker-2.1.25/moment.min.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="/static/plugins/daterangepicker-2.1.25/daterangepicker.js" charset="UTF-8"></script>
+
+<!--jqgrid-->
+
+<script src="/static/plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="/static/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+
+<!--treegrid-->
+<script src="/static/plugins/treegrid/jquery.treegrid.extension.js"></script>
+<script src="/static/plugins/treegrid/jquery.treegrid.min.js"></script>
+<script src="/static/plugins/treegrid/jquery.treegrid.bootstrap3.js"></script>
+<script src="/static/plugins/treegrid/tree.table.js"></script>
+
+<script src="/static/js/common.js"></script>
+
+</head>
+</html>

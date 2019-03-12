@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aebiz.schedule.dao.ScheduleJobLogDao">
+	
+	
+	
+	
+		<select id="getByCondition" parameterType="Object" resultType="com.aebiz.schedule.entity.ScheduleJobLogEntity">
+		SELECT * FROM schedule_job where 1=1 
+		<!-- $不带'' # 是带的  -->
+						<if test="name != null and name != ''">
+					and  (beanName like '%${beanName}%')
+						</if>
+			
+					
+						
+			</select>
+
+	
+	 
+	<insert id="add" parameterType="com.aebiz.schedule.entity.ScheduleJobLogEntity">
+		insert into schedule_job_log
+		(
+			`job_id`, 
+			`bean_name`, 
+			`method_name`, 
+			`params`, 
+			`status`, 
+			`error`, 
+			`times`, 
+			`create_time`
+		)
+		values
+		(
+			#{jobId}, 
+			#{beanName}, 
+			#{methodName}, 
+			#{params}, 
+			#{status}, 
+			#{error}, 
+			#{times}, 
+			#{createTime}
+		)
+	</insert>
+	
+</mapper>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+ <head>
+
+
+
+<script src="vue.js"></script>
+
+
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  
+  <div id="app">
+      <input v-model="parentMsg">
+      <br>
+      <child v-bind:my-message="parentMsg"></child>
+
+
+
+
+  </div>
+
+
+<div id="app-7">
+<ol>
+<!-- Now we provide each todo-item with the todo object -->
+<!-- it's representing, so that its content can be dynamic -->
+
+
+<todo-item v-for="item2 in groceryList2" v-bind:todo="item2"></todo-item>
+
+
+</ol>
+</div>
+
+<script> 
+var vm = new Vue({
+  el: '#app',
+  data: function () {
+    return { 
+      title: '使用 Prop 传递数据',
+      parentMsg: 'Message from parent'
+    }
+    
+  },
+  components: {
+    child: {
+      props: ['myMessage'],
+      template: '<span>{{myMessage}}</span>'
+    }
+  }
+})
+
+
+
+
+
+
+
+Vue.component('todo-item', {
+props: {'todo2':{}},
+template: '<li>{{ todo2.text }}</li>'
+})
+
+
+
+var app7 = new Vue({
+el: '#app-7',
+data: {
+groceryList: [
+{ text: 'Vegetables' },
+{ text: 'Cheese' },
+{ text: 'Whatever else humans are supposed to eat' }
+],
+groceryList2: [
+{ text: 'Vegetables' },
+{ text: 'Cheese' },
+{ text: 'Whatever else humans are supposed to eat' }
+]
+}
+})
+
+
+
+
+</script>
+ 
+
+ </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+<meta charset="UTF-8">
+<script src="/static/js/jquery.1.10.2.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/bootstrap-3.3.7/css/bootstrap.min.css" />
+
+</head>
+
+<body>
+
+
+<ul class="nav nav-tabs">
+		<li ><a
+			href="cms/getArtilceByCategory.do">新增菜单</a>
+		</li>
+		
+	</ul>
+	<br>
+
+
+	<form id="saveProduct" class="form-horizontal" role="form"
+		action="" method="post" onsubmit="return check()">
+
+
+		<div class="form-group">
+			<label for="loginname" class="col-sm-1 control-label">菜单名称</label>
+			<div class="col-sm-3">
+				<input type="text" id="deviceName"
+					class="form-control input-xxlarge measure-input required"
+					name="powername" placeholder="" value="">
+
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="loginname" class="col-sm-1 control-label">url</label>
+			<div class="col-sm-3">
+				<input type="text" id="deviceName"
+					class="form-control input-xxlarge measure-input required"
+					name="powerurl" placeholder="" value="">
+
+			</div>
+		</div>
+		
+			<div class="form-group">
+			<label for="loginname" class="col-sm-1 control-label">表达式</label>
+			<div class="col-sm-3">
+				<input type="text" id="deviceName"
+					class="form-control input-xxlarge measure-input required"
+					name="powerkey" placeholder="" value="">
+
+			</div>
+			</div>
+		
+		
+
+
+		<div style="background-color: #F5F5F5; width: 100%; height: 80px; padding-top: 20px;">
+
+			<div class="col-sm-offset-2 col-sm-10">
+				<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv()"
+					value="保 存" />&nbsp; <input id="btnCancel" class="btn"
+					style="background-color: #FFFFFF" type="button" value="返 回"
+					onclick="history.go(-1)" />
+			</div>
+		</div>
+
+	</form>
+</body>
+
+<script type="text/javascript">
+
+function addEnv(){
+	
+	var data=$("#saveProduct").serialize(); 
+
+	console.log(data)
+ 	
+         $.ajax({
+             type: "post",
+             url: "/sys/menu/add",
+             data: data,
+             dataType: "json",
+             success: function(data){
+                      /*    $('#resText').empty();   //清空resText里面的所有内容
+                         var html = ''; 
+                         $.each(data, function(commentIndex, comment){
+                               html += '<div class="comment"><h6>' + comment['username']
+                                         + ':</h6><p class="para"' + comment['content']
+                                         + '</p></div>';
+                         });
+                         $('#resText').html(html); */
+                         if(data.retStatus="1"){
+                        	 location.href="/sys/menu/toList"
+                         }
+                         else{
+                        	 alert("新增失败！")
+                         }
+                         
+                      }
+         });
+}
+
+
+</script>
+</html>

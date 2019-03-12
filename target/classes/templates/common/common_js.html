@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="commonJs">
+<!-- jQuery -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<!-- jQuery UI -->
+<!-- 	
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.core.min.js}"></script>
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.widget.min.js}"></script>
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.mouse.min.js}"></script>
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.resizable.min.js}"></script>
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.sortable.min.js}"></script>
+<script th:src="@{/static/js/plugins/jquery-ui/jquery.ui.sortable.min.js}"></script> 
+-->
+
+
+<style>
+.error-msg{
+	min-height: 200px;
+}
+
+</style>
+
+<!-- Nice Scroll -->
+<script th:src="@{/static/js/plugins/nicescroll/jquery.nicescroll.min.js}"></script>
+
+
+<script th:src="@{/static/js/vue.min.js}"></script>
+
+<script th:src="@{/static/lib/layer-v3.1.1/layer/layer.js}"></script>
+
+<script th:src="@{/static/js/vue-plugins/vue-resource/dist/vue-resource.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+	
+	//自定义指令，使用  v-disabled="xxx" ,其中 xxx为表达式，表达式为true则为元素添加 disabled属性，表达式为false则移除disabled属性
+	Vue.directive('disabled', {
+		bind:function(el, binding){
+			if(binding.value){
+		    	el.setAttribute("disabled","disabled");
+		    }else{
+		    	el.removeAttribute("disabled");
+		    }
+		}
+	});
+	
+	function getNewObj(obj){
+		return JSON.parse(JSON.stringify(obj));
+	}
+	
+	function checkSession(xhr){
+		if(xhr && xhr.getResponseHeader){
+			var sessionstatus = xhr.getResponseHeader("sessionstatus");  
+	        if(sessionstatus == "TIMEOUT"){
+	        	//sesion失效
+	        	alert("登陆超时，请重新登陆！");
+	        	var loginUrl = [[@{/toLogin}]];
+	       		if(window.top != window.self){
+	       			window.top.location.href = loginUrl;
+	       		}else{
+	       			window.location.href = loginUrl;
+	       		}
+	        }
+	        return true;
+		}
+	}
+	
+	
+	//全局错误处理
+	$(document).ajaxComplete(function(event, xhr, settings) {
+		checkSession(xhr);
+		if(xhr.status && xhr.status!= 200){
+			layer.msg('请求错误！');
+		}
+	});
+	
+	
+	//后台返回错误处理
+	var errors = [[${errors}]];
+	if(errors){
+		layer.open({
+		  type: 1,
+		  title:"错误信息",
+		  area:['350px','200px'],
+		  skin: 'layui-layer-lan', //样式类名
+		  offset:"rb",
+		  shade: 0, //开启遮罩关闭
+		  content: '<div class="error-msg">   <div>内容</div ><div>内容</div><div>内容</div><div>内容</div><div>内容</div>    </div>'
+		});
+	}
+	
+	
+	
+	var Msg = {};
+	
+	//成功提示
+	Msg.success = function(text){
+		layer.msg(text, {icon: 1});
+	}
+	//错误提示
+	Msg.error = function(text){
+		layer.msg(text,{icon:2});
+	}
+	//一般提示，提示 复选框未选中等
+	Msg.tip = function(text){
+		layer.msg(text);
+	}
+	
+	var MsgBox = {};
+	
+ 	MsgBox.alert = function(msg,callback){
+		layer.alert('内容');
+	}
+	
+	MsgBox.confirm = function(text,callback){
+		
+	}
+	
+	
+</script>
+	
+</body>
+</html>

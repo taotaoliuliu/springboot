@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>玩转spring boot——websocket</title>
+<script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    
+        <script src="/js/webSocket.js"></script>
+        
+
+</head>
+<body>
+
+<a href="index3">index3</a>
+<button onclick="send()" type="button" class="btn btn-default"> sendMsg</button>
+
+</body>
+<script type="text/javascript">
+
+var send=function(){
+	
+    $.ajax({
+        type: "GET",
+        url: "/ad/sendMsg",
+        data: {},
+        dataType: "text",
+        success: function(data){
+                   
+                 }
+    });
+	
+}
+
+</script>
+</html>

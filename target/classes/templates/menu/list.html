@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head th:include="common/head :: commonHeader('菜单管理')"></head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	<div id="rrapp">
+		
+		<div class="form" style="margin-top: 50px;">
+
+
+
+			<form id="searchProduct" class="form-inline" action="user/getList.do"
+				style="background-color: #eeeeee; padding: 15px 15px; margin-top: 30px;"
+				method="post">
+				
+	
+
+				<!-- <input name="pageSize" v-model="pageSize" type="hidden"/>
+				<input name="pageNum" v-model="pageNow" type="hidden"/> -->
+
+				<div class="form-group">
+					<label for="exampleInputName2">菜单名称：</label> <input type="text"
+						class="form-control" v-model="powername"
+						placeholder="" value=""/>
+				</div>
+				
+		
+
+
+		
+				<div class="form-group">
+					<button v-on:click="search()" type="button" class="btn btn-primary">查询</button>
+				</div>
+				
+				
+				<div class="form-group">
+					<button v-on:click="handleadd()" type="button" class="btn btn-primary">新增</button>
+				</div>
+				<div class="form-group">
+					<button v-on:click="update()" type="button" class="btn btn-primary">修改</button>
+				</div>
+			</form>
+
+		</div>
+
+		
+
+		 <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+
+		
+		
+		
+		
+		
+		
+		       <!-- 新增秒杀（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form id="addKill"  action="" method="" class='form-validate2 form-horizontal'>
+        <div class="modal-dialog account_input account_yuangong">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">新增秒杀</h4>
+                </div>
+                <div class="modal-body">
+                <input type="hidden"  name="productUuid" id="productUuid"/>
+
+							<div class="form-group">
+								<label for="loginname" class="col-sm-2 control-label">秒杀价格</label>
+								<div class="col-sm-6">
+									<input type="text"
+										class="form-control input-xxlarge measure-input required"
+										name="killPrice" id="killPrice" placeholder="" value="">
+
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="loginname" class="col-sm-2 control-label">秒杀时间</label>
+								<div class="col-sm-6">
+									<input type="text"  data-time="true" data-second="true" id="startDate"
+										class="form-control form_time" placeholder="" value="">
+										<input type="hidden" name="startTime" class="startTime"/>
+										<input type="hidden" name="endTime"  class="endTime"/>
+
+								</div>
+							</div>
+				</div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary"  value='保存' id="updateBtn">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+        </form>
+    </div>
+    <!-- （Modal）end -->
+		
+		
+
+	</div>
+
+
+<script src="/static/js/sys/menu.js"></script>
+
+
+
+	
+	<script>
+    $(document).ready(function() {
+    	utils.daterangepicker();
+        
+    });
+</script>
+
+
+
+<script type="text/javascript">
+$("#updateBtn").click(function() {
+	
+    //获取表单验证状态
+  /*   if (!$("#updateSysRole").valid()) {
+        return;
+    } */
+	 $.post("/secKillProductMain/add", $("#addKill").serialize(),
+    function(data) {
+        if (data) {
+            $('#myModal').modal('toggle');
+            $("#startDate").val('');
+            $("#killPrice").val('');
+         
+            bootbox.alert('操作成功！');
+
+        } else {
+            bootbox.alert('操作失败！');
+        }
+    });
+});
+
+function update2(){
+	alert('aa');
+	
+}
+</script>
+
+
+</body>
+</html>

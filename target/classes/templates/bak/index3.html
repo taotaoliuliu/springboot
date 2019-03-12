@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>玩转spring boot——websocket</title>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/socket.io.js"></script>
+    
+        
+        
+        <script type="text/javascript">
+        var basePath = "http://localhost:8080/";
+
+        
+		var socket = io.connect(basePath+"websocket/1");
+		alert(socket);
+
+      //监听消息发送
+		socket.on('send', function(obj){
+			
+			
+			alert(obj+"sssss");
+			
+		});
+        
+        </script>
+    
+
+</head>
+<body>
+
+
+<button onclick="send()" type="button" class="btn btn-default"> sendMsg</button>
+
+</body>
+<script type="text/javascript">
+
+var send=function(){
+	
+    $.ajax({
+        type: "GET",
+        url: "/ad/sendMsg",
+        data: {},
+        dataType: "text",
+        success: function(data){
+                   
+                 }
+    });
+	
+}
+
+</script>
+</html>

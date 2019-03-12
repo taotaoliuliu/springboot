@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+<meta charset="UTF-8">
+<script src="/static/js/jquery.1.10.2.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/bootstrap-3.3.7/css/bootstrap.min.css" />
+<script src="https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
+
+</head>
+
+<body>
+
+
+<ul class="nav nav-tabs">
+		<li ><a
+			href="cms/getArtilceByCategory.do">新增报表</a>
+		</li>
+		
+	</ul>
+	<br>
+
+
+	<form id="saveProduct" class="form-horizontal" role="form"
+		action="" method="post" onsubmit="return check()">
+
+
+		<div class="form-group">
+			<label for="loginname" class="col-sm-1 control-label">名称</label>
+			<div class="col-sm-3">
+				<input type="text" id="deviceName"
+					class="form-control input-xxlarge measure-input required"
+					name="name" placeholder="" value="">
+
+			</div>
+			
+			<label for="loginname" class="col-sm-1 control-label">mobile</label>
+			<div class="col-sm-3">
+				<input type="text" id="mobile"
+					class="form-control input-xxlarge measure-input required"
+					name="mobile" placeholder="" value="">
+
+			</div>
+			
+				<label for="loginname" class="col-sm-1 control-label">age</label>
+			<div class="col-sm-3">
+				<input type="text" id="mobile"
+					class="form-control input-xxlarge measure-input required"
+					name="age " placeholder="" value="">
+
+			</div>
+		</div>
+		
+		
+		
+		
+		
+
+		
+
+
+		
+			
+			
+	
+	<table class="table table-bordered table-hover">
+
+			<tr class="text-danger">
+				<td class="text-center"></td>
+				<td class="text-center">商品名称</td>
+				<td class="text-center">库存</td>
+				<td class="text-center">操作</td>
+			</tr>
+			
+			
+			<tr class="text-danger">
+				<td class="text-center">
+				<input type="checkbox" class="check" name='check' value="11">
+				
+				</td>
+				<td class="text-center">11</td>
+				<td class="text-center">11</td>
+				<td class="text-center">11</td>
+			</tr>
+			
+			
+				<tr class="text-danger">
+				<td class="text-center">
+				<input type="checkbox" class="check" name='check' value="22">
+				
+				</td>
+				<td class="text-center">22</td>
+				<td class="text-center">22</td>
+				<td class="text-center">22</td>
+			</tr>
+			
+			</table>
+		
+
+
+		<div style="background-color: #F5F5F5; width: 100%; height: 80px; padding-top: 20px;">
+
+			<div class="col-sm-offset-2 col-sm-10">
+				<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv()"
+					value="保 存model 后台直接用model接受" />&nbsp; <br>
+					
+					
+					<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv2()"
+					value="保 存model后台用resbody接受   ， 前台得是json字符串" />&nbsp; <br>
+					
+					
+					<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv3()"
+					value="保 存List<String> 后台是@RequestParam('names')  前台得是字符串用逗号分隔" />&nbsp; <br>
+					
+					
+						<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv4()"
+					value="保 存List<String> 后台是@RequestParam('names【】')  前台用数组传递" />&nbsp; <br>
+					
+							<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv5()"
+					value="保 存List<model>" />&nbsp; <br>
+			</div>
+		</div>
+		
+		
+
+	</form>
+</body>
+
+<script type="text/javascript">
+
+function addEnv(){
+	
+	var data=$("#saveProduct").serializeArray(); 
+
+
+	var data2=$("#saveProduct").serialize(); 
+	
+	var data3=$('#saveProduct').serializeJSON();  //返回的是对象
+
+
+	
+		console.log(data)
+		console.log(data2)
+		console.log(data3) 
+		
+		//三种方式都可以
+
+ 	
+         $.ajax({
+             type: "post",
+             url: "/test/getList3",
+             data:  data3,
+           //  contentType : 'application/json;charset=utf-8', //设置请求头信息
+           //  data: data3,
+             dataType: "json",
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+function addEnv2(){
+	
+	
+	//三种方式 只能用  3
+	var data=$("#saveProduct").serializeArray(); 
+
+	
+	var data2=$("#saveProduct").serialize(); 
+	var data3=$('#saveProduct').serializeJSON();
+	console.log(data)
+	console.log(data2)
+	console.log(data3)
+ 	
+	var mm={};
+	mm.ss=1;
+	mm.s2=1;
+	
+	
+	
+	
+	data3 ={'name':'ss','skuMap':mm};
+         $.ajax({
+             type: "post",
+             url: "/test/getList4",
+             data:  JSON.stringify(data3),
+             contentType : 'application/json;charset=utf-8', //设置请求头信息
+             dataType: "json",
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+
+function addEnv3(){
+	
+	
+	var names=[];
+	
+	
+	$("input[name='check']:checked").each(function(){
+		
+		names.push($(this).val());
+	})
+	
+	console.log(names);
+	
+	var data=$("#saveProduct").serializeArray(); 
+	
+	
+	//JSON.stringify(customerArray)
+	//JSON.parse(names)
+	
+
+	console.log(data)
+ 	
+         $.ajax({
+             type: "post",
+             url: "/test/getList2",
+             data: {"names":names.join(",")},
+             dataType: "json",
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+function addEnv4(){
+	
+	
+	var names=[];
+	
+	
+	$("input[name='check']:checked").each(function(){
+		
+		names.push($(this).val());
+	})
+	
+	console.log(names);
+	
+	var data=$("#saveProduct").serializeArray(); 
+	
+	
+	//JSON.stringify(customerArray)
+	//JSON.parse(names)
+	
+
+	console.log(data)
+ 	
+         $.ajax({
+             type: "post",
+             url: "/test/getList22",
+             data: {"names":names,"mobile":"2222222"},
+             dataType: "json",
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+function addEnv5(){
+	
+	
+	var names=[];
+	
+	
+	$("input[name='check']:checked").each(function(){
+		
+		names.push($(this).val());
+	})
+	
+	console.log(names);
+	
+	var data=$("#saveProduct").serializeArray(); 
+	
+	
+	//JSON.stringify(customerArray)
+	//JSON.parse(names)
+	
+	
+	
+	   var params = [];
+            $("#saveProduct").find("div.form-group").each(function () {
+            	
+            	alert("aaa")
+                var name = $(this).find("input[name='name']").eq(0).val();
+                var mobile = $(this).find("input[name='mobile']").eq(0).val();
+         
+ 
+                params.push({"name": name, "mobile": mobile});//id,value 为java bean里的属性，名字一致
+            })
+            
+	
+	console.log(JSON.stringify(params));
+            
+
+ 	
+         $.ajax({
+             type: "post",
+             url: "/test/getList5",
+             data: JSON.stringify(params),
+             dataType: "json",
+             contentType : 'application/json;charset=utf-8', //设置请求头信息
+
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+
+
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+
+var jsonObj = $("#form").serializeObject();  //json对象
+
+var jsonStr = JSON.stringify($("#form").serializeObject());  //json字符串
+
+
+</script>
+</html>

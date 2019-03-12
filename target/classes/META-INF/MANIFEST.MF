@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Spring-Boot-Demo
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: 55401
+Implementation-Vendor-Id: cn.mrdear
+Build-Jdk: 1.8.0_40
+Implementation-URL: http://maven.apache.org
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

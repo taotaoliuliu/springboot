@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="/static/js/jquery.1.10.2.min.js"></script>
+
+
+<!-- elementUI2.2 -->
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	
+	
+	<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+<link rel="stylesheet"
+		href="/static/plugins/jerichotab/css/jquery.jerichotab.css" />
+	<script type="text/javascript"
+		src="/static/plugins/jerichotab/js/jquery.jerichotab.js"></script>
+<style type="text/css">
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+  }
+  
+  .el-aside {
+    color: #333;
+  }
+
+</style>
+<style>
+    .header {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 70px;
+        font-size: 22px;
+        color: #fff;
+        background-color: #07c4a8;
+    }
+    .collapse-btn{
+        float: left;
+        padding: 0 21px;
+        cursor: pointer;
+        line-height: 70px;
+    }
+    .header .logo{
+        float: left;
+        width:250px;
+        line-height: 70px;
+    }
+    .header-right{
+        float: right;
+        padding-right: 50px;
+    }
+    .header-user-con{
+        display: flex;
+        height: 70px;
+        align-items: center;
+    }
+    .btn-fullscreen{
+        transform: rotate(45deg);
+        margin-right: 5px;
+        font-size: 24px;
+    }
+    .btn-bell, .btn-fullscreen{
+        position: relative;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+    .btn-bell-badge{
+        position: absolute;
+        right: 0;
+        top: -2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: #f56c6c;
+        color: #fff;
+    }
+    .btn-bell .el-icon-bell{
+        color: #fff;
+    }
+    .user-name{
+        margin-left: 10px;
+    }
+    .user-avator{
+        margin-left: 20px;
+    }
+    .user-avator img{
+        display: block;
+        width:40px;
+        height:40px;
+        border-radius: 50%;
+    }
+    .el-dropdown-link{
+        color: #fff;
+        cursor: pointer;
+    }
+    .el-dropdown-menu__item{
+        text-align: center;
+    }
+    
+    
+    
+    
+      .sidebar{
+         display: block;
+    position: absolute;
+    left: 8px;
+    top: 79px;
+    bottom: 0;
+    overflow-y: scroll;
+    }
+    .sidebar::-webkit-scrollbar{
+        width: 0;
+    }
+    .sidebar-el-menu:not(.el-menu--collapse){
+        width: 250px;
+    }
+    .sidebar > ul {
+        height:100%;
+    }
+    
+    
+     footer{
+        border-top:1px solid #ddd;
+        flex: 0 0 auto;
+       
+    }
+    
+     .footer_content{
+            width: 340px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 60px;
+            height: 60px;
+            color:#606266;
+           
+        }
+    
+    
+    
+    .content-box {
+    position: absolute;
+    left: 260px;
+    right: 10px;
+    top: 80px;
+   
+    overflow-y: scroll;
+    transition: left .3s ease-in-out;
+           height:100%;
+    
+}
+
+
+ .content_wrapper{
+       display: flex;
+       flex-direction: column;
+       height:100%;
+    }
+</style>
+</head>
+<body>
+
+
+<div id="app">
+
+ <div class="header">
+        <!-- 折叠按钮 -->
+        <div class="collapse-btn" >
+            <i class="el-icon-menu"></i>
+        </div>
+        <div class="logo">后台管理系统</div>
+        
+        <div class="header-right">
+            <div class="header-user-con">
+                <!-- <marquee onMouseOver="this.start()" style="font-size:18px;padding-bottom:4px;width:100px;" scrollamount="1">{{getlev}}</marquee> -->
+                <div style="font-size:18px;padding-bottom:4px;width:60px;">{{getlev}}</div>
+                <!-- 全屏显示 -->
+                <div class="btn-fullscreen" @click="handleFullScreen">
+                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                        <i class="el-icon-rank"></i>
+                    </el-tooltip>
+                </div>
+                <!-- 消息中心 -->
+                <div class="btn-bell">
+                    <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
+                        <router-link to="/tabs">
+                            <i class="el-icon-bell"></i>
+                        </router-link>
+                    </el-tooltip>
+                    <span class="btn-bell-badge" v-if="message"></span>
+                </div>
+                <!-- 用户头像 -->
+                <div class="user-avator"><img src="static/img/img.jpg"></div>
+                <!-- 用户名下拉菜单 -->
+                <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        {{username}} <i class="el-icon-caret-bottom"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <a href="https://github.com/merciqiao" target="_blank">
+                            <el-dropdown-item>关于作者</el-dropdown-item>
+                        </a>
+                        <a href="https://github.com/merciqiao/merciqiao-vue" target="_blank">
+                            <el-dropdown-item>项目仓库</el-dropdown-item>
+                        </a>
+                        <a href="/zanzhu" target="_blank">
+                            <el-dropdown-item style="color:orange;">赞助作者</el-dropdown-item>
+                        </a>
+                        <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </div>
+       
+    </div>
+    
+    
+           
+        <!--   -->
+        
+     <div class="sidebar">
+        <el-menu class="sidebar-el-menu" :collapse="collapse" background-color="#324157"
+            text-color="#bfcbd9" active-text-color="#20a0ff">
+           <template v-for="(item,i) in menuList">
+                <template v-if="item.subs&&item.subs.length">
+                    <el-submenu :index="item.index" :key="i">
+                        <template slot="title">
+                            <i :class="item.icon"></i><span slot="title">{{ item.title }}</span>
+                        </template>
+                        <el-menu-item :dataLink="subItem.url" v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}</el-menu-item>
+                    </el-submenu>
+                </template>
+            </template>
+        </el-menu>
+    </div>
+    
+    
+    
+    		<!-- <div id="right">
+				aaaaaaa
+					<iframe id="mainFrame" name="mainFrame" src=""
+						style="overflow:visible;" scrolling="yes" frameborder="no"
+						width="100%" height="650"> </iframe>
+			</div> -->
+			
+			
+			
+			
+			
+	<div class="content-box" id="right">
+       
+	<iframe id="mainFrame" name="mainFrame" src=""
+						style="overflow:visible;display: none;" scrolling="yes" frameborder="no"> </iframe>
+        </div>
+			
+			
+    
+
+</div>
+</body>
+<script type="text/javascript">
+
+
+var vue = new Vue({
+	el : "#app",
+	data : {
+		collapse: false,
+		menuList: [
+            {
+                icon: 'el-icon-setting',
+                index: 'index',
+                title: '系统首页',
+            },
+            {
+                icon: 'el-icon-tickets',
+                index: 'table',
+                title: '基础模块',
+                subs: [
+                    {
+                        index: 'searchinput',
+                        title: '查询输入页',
+                        url:'/static/html/ad/ad.html'
+                    },
+                    {
+                        index: 'tabpage',
+                        title: '标签选项卡',
+                        url:'/static/html/ad/ad.html'
+                    },
+                     {
+                        index: 'tablepage',
+                        title: '综合表格页',
+                        url:'/static/html/ad/ad.html'
+                    },
+                     {
+                        index: 'formpage',
+                        title: '表单页',
+                        url:'/static/html/ad/ad.html'
+                    },
+                     {
+                        index: 'treepage',
+                        title: '树组件页',
+                        url:'/static/html/ad/ad.html'
+                    }
+                ]
+            },
+             {
+                icon: 'el-icon-setting',
+                index: '3',
+                title: '系统管理',
+                subs: [
+                    {
+                        index: 'organizationTree',
+                        title: '机构管理',
+                        url:'/static/html/ad/ad.html'
+                    }, 
+                    {
+                        index: 'sysUser',
+                        title: '用户管理',
+                        url:'/static/html/ad/ad.html'
+                    }, 
+                    {
+                        index: 'sysRole',
+                        title: '角色管理',
+                        url:'/static/html/ad/ad.html'
+                    }, 
+                    {
+                        index: 'sysAcl',
+                        title: '角色资源授权',
+                        url:'/static/html/ad/ad.html'
+                    }, 
+                    {
+                        index: 'sysResource',
+                        title: '资源管理',
+                        url:'/static/html/ad/ad.html'
+                    }, 
+                    {
+                        index: 'sysMenu',
+                        title: '菜单管理',
+                        url:'/static/html/ad/ad.html'
+                    }
+                     
+
+                ]
+            },
+            // {
+            //     icon: 'el-icon-message',
+            //     index: 'tabs',
+            //     title: 'tab选项卡'
+            // },
+            // {
+            //     icon: 'el-icon-date',
+            //     index: '3',
+            //     title: '表单相关',
+            //     subs: [
+            //         {
+            //             index: 'form',
+            //             title: '基本表单'
+            //         },
+            //         {
+            //             index: 'editor',
+            //             title: '富文本编辑器'
+            //         },
+            //         {
+            //             index: 'markdown',
+            //             title: 'markdown编辑器'
+            //         },
+            //         {
+            //             index: 'upload',
+            //             title: '文件上传'
+            //         }
+            //     ]
+            // },
+            // {
+            //     icon: 'el-icon-star-on',
+            //     index: 'charts',
+            //     title: 'schart图表'
+            // },
+            // {
+            //     icon: 'el-icon-rank',
+            //     index: 'drag',
+            //     title: '拖拽列表'
+            // },
+            // {
+            //     icon: 'el-icon-warning',
+            //     index: 'permission',
+            //     title: '权限测试'
+            // },
+            {
+                icon: 'el-icon-error',
+                index: '404',
+                title: '404页面'
+            }
+        ]
+	},
+	
+
+	methods : {
+		
+	}
+})
+
+
+
+
+
+
+$(document).ready(function() {		
+	
+	$.fn.initJerichoTab({
+        renderTo: '#right', 
+        uniqueId: 'jerichotab',
+        contentCss: { 'height': '1200' ,'width':'100%' },
+        tabs: [], 
+        loadOnce: true,
+        tabWidth: '200', 
+        titleHeight: '200',
+    });
+	
+	
+	$(".el-menu-item").each(function(){
+		
+		$(this).click(function(){
+			
+			console.log($(this).text());
+			$.fn.jerichoTab.addTab({
+                tabFirer: $(this),
+                title: $(this).text(),
+                //closeable: true,
+                //iconImg: $(this).attr('iconImg'),
+                data: {
+                    dataType: 'iframe',
+                    dataLink: $(this).attr('dataLink')
+                }
+            }).loadData();
+		})
+		
+	})
+	
+})
+
+
+$(window).resize(function() {
+    var w = $(document).width();
+    $('.right').css({ width: w - 250 });
+})
+
+
+</script>
+</html>
