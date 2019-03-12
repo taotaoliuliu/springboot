@@ -12,6 +12,9 @@ public class Test {
 	 * @param args
 	 */
 	  public static void main(String[] args) {  
+		  
+		  //////////////////////////
+		  System.out.println("@@@@@@@@@@@@@@@");
 	        LRUMap lruMap = new LRUMap();  
 	        lruMap.put("a1", "1");  
 	        lruMap.put("a2", "2");  
