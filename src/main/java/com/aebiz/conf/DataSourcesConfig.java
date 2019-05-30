@@ -3,6 +3,8 @@ package com.aebiz.conf;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,11 @@ import java.sql.SQLException;
  * @author lsl
  * @date 2016/8/12
  */
-@Configuration
+//@Configuration 
 public class DataSourcesConfig {
+	
+	
+	
     /**
      * druid初始化
      * @return

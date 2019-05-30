@@ -32,6 +32,8 @@ public class Test {
 					ad.setName(name+"###########");
 					
 					try {
+						Thread.sleep(2000);
+
 						SeckillQueue.getMailQueue().produce(ad);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -48,10 +50,13 @@ public class Test {
 			while(true){
 				//进程内队列
 				Ad ad = SeckillQueue.getMailQueue().consume();
+				Thread.sleep(1000);
+				
 				if(ad!=null){
 					aa++;
 				}
 				System.out.println(aa);
+				System.out.println(SeckillQueue.getMailQueue().size());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

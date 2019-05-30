@@ -67,6 +67,11 @@ http://localhost:8080/static/html/test/add.html
 ###############
 
 
+elememt UI 管理页面  http://localhost:8080/static/html/element/index2.html
+
+h+UI      http://localhost:8080
+
+
  
  
 
@@ -115,5 +120,22 @@ http://localhost:8080/static/html/test/add.html
 
 
 
+
+
+######2019-05-29  实现了分库分表  shardingsphere ########
+
+问题 1 pom里面加入 
+
+		<dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>4.0.0-RC1</version>
+            
+       		 </dependency>
+       		 
+       		 不然老是让找数据库
+问题2 不使用 druid
+	因为springboot 没有集成 
+#######################################
 
 	

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aebiz.common.aop.Servicelock;
+import com.aebiz.common.bean.Result;
 import com.aebiz.common.websocket2.WebSocketServer;
 import com.aebiz.entity.Ad;
 import com.aebiz.entity.TestModel;
 import com.aebiz.entity.TestModel2;
 import com.aebiz.kafka.KafkaSender;
 import com.aebiz.service.AdService;
+import com.aebiz.service.TestService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
@@ -37,6 +42,9 @@ import redis.clients.jedis.JedisPool;
 @RestController
 @RequestMapping("/test")
 public class TestController {
+	
+	@Autowired
+	private TestService testService;
 
 	// Failed to instantiate [java.util.List]: Specified class is an interface
 
@@ -107,6 +115,34 @@ public class TestController {
 		System.out.println(models);
 		System.out.println(promotionUuid);
 
+		return "";
+	}
+	
+	
+	@RequestMapping(value = "/testAsync")
+	public Result testAsync(){
+		
+		Future<Result> muchData = testService.getMuchData();
+		
+		
+		System.out.println("DDDDDDDDDDDDDD");
+		
+		Result result =new Result();
+		try {
+			 result = muchData.get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/getList6")
+	public String getList6(@PathVariable String name,@PathVariable String mobile) {
+
+		System.out.println(name);
+		System.out.println(mobile);
 		return "";
 	}
 

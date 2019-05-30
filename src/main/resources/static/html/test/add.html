@@ -32,7 +32,7 @@
 		<div class="form-group">
 			<label for="loginname" class="col-sm-1 control-label">名称</label>
 			<div class="col-sm-3">
-				<input type="text" id="deviceName"
+				<input id="name" type="text" id="deviceName"
 					class="form-control input-xxlarge measure-input required"
 					name="name" placeholder="" value="">
 
@@ -122,6 +122,10 @@
 					
 							<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv5()"
 					value="保 存List<model>" />&nbsp; <br>
+					
+					
+						<input id="btnSubmit" class="btn btn-primary" type="button" onclick="addEnv6()"
+					value="保 存applicationString" />&nbsp; <br>
 			</div>
 		</div>
 		
@@ -156,6 +160,27 @@ function addEnv(){
              data:  data3,
            //  contentType : 'application/json;charset=utf-8', //设置请求头信息
            //  data: data3,
+             dataType: "json",
+             success: function(data){
+ 
+                      }
+         });
+}
+
+
+
+function addEnv6(){
+	
+	var name=$("#name").val();
+		
+		//三种方式都可以
+var data={"name":name}
+ 	
+         $.ajax({
+             type: "post",
+             url: "/test/getList6",
+          	  contentType : 'application/json;charset=utf-8', //设置请求头信息
+          	  data: JSON.stringify(data),
              dataType: "json",
              success: function(data){
  

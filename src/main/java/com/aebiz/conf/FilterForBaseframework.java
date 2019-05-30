@@ -13,7 +13,7 @@ public class FilterForBaseframework implements TypeFilter {
 		String str = reader.getResource().getURI().toString();
 		if (str != null) {
 			str = str.replaceAll("\\/", ".");
-			if (str.contains("com.aebiz.queue")|| str.contains("com.aebiz.common.storm")) {
+			if (str.contains("com.aebiz.queue")|| str.contains("com.aebiz.common.storm") || str.contains("org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration")) {
 				return true;
 			}
 		}

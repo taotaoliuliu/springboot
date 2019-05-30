@@ -11,7 +11,7 @@
 		<div
 			style="margin-left: 5px; position: fixed; z-index: 1000; top: 0px; border-bottom: 3px solid #0FA6DB; width: 100%; background: #FFF;">
 
-			<button type="button" class="btn btn-default" onclick="addUI()">
+			<button type="button" class="btn btn-default" @click="addUI">
 				<span class="glyphicon glyphicon-remove-sign"></span> 增加
 			</button>
 			<!-- <button type="button" class="btn btn-default">
@@ -68,11 +68,31 @@
 		</div>
 
 		<div style="float: right;margin: 10px 0;">
-			<button type="button" class="btn btn-default" v-on:click="handleadd()">
-				<span class="glyphicon glyphicon-remove-sign"></span> 增加
+			<button type="button" class="btn btn-default" v-on:click="handleadd">
+				<span class="glyphicon glyphicon-remove-sign"></span> 增加11
 			</button>
 
 		</div>
+		
+		
+			<el-dialog title="添加商品" :visible="dialogVisibleAdd">
+		  <el-form :model="form">
+		    <el-form-item label="商品名称" label-width="120px" style="width:45%">
+		      <el-input v-model="form.name" auto-complete="off"></el-input>
+		    </el-form-item>	    
+		    <el-form-item label="店铺名称" label-width="120px" style="width:45%">
+		      <el-input v-model="form.store" auto-complete="off"></el-input>
+		    </el-form-item>
+		    
+		     <el-form-item label="分类名称" label-width="120px" style="width:45%">
+		      <el-input v-model="form.categoryUuid" auto-complete="off"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button @click="dialogVisibleAdd = false">取 消</el-button>
+		    <el-button type="primary" @click="addAd">确 定</el-button>
+		  </div>
+		</el-dialog>   
 
 		<table class="table table-bordered table-hover">
 
@@ -201,9 +221,6 @@
 				dialogVisibleAdd: false,
 				 //提交的表单
 		        form: {
-		        	name: '',
-		        	age: '',
-		        	phone: '',
 		          },
 
 			},
@@ -260,12 +277,29 @@
 	            	
 	            },
 	            addAd:function (){
+	            	
+	            	
+	           	var that=this;
 	            	this.$http.post('/ad/addAd',{"name":this.form.name,"content":this.form.content},{emulateJSON: true}).then(function(res){
 	    				this.getData();
 	    				this.dialogVisibleAdd = false;
 	                },function(){
 	                    console.log('failed');
 	                });
+	            	
+	            	
+	            	
+	            	$.ajax({
+						url: '/productMain/add',
+						dataType: "json",
+						method: "POST",
+						//contentType: "application/json; charset=utf-8",
+						data: that.form,
+						success: function(ret) {
+							that.getData();
+							that.dialogVisibleAdd = false;	
+						},
+					});
 	            },
 	            del:function(item){
 	            	
@@ -285,20 +319,6 @@
 	            closeDialog:function (){
 		            this.dialogVisibleAdd=false;
 
-	            },
-	            killProduct:function(item){
-		            $("#productUuid").val(item.uuid)
-	               $('#myModal').modal();
-
-
-	            },
-	            saveKillProduct:function (){
-	            	this.$http.post('/ad/addAd',{"name":this.form.name,"content":this.form.content},{emulateJSON: true}).then(function(res){
-	    				this.getData();
-	    				this.dialogVisibleAdd = false;
-	                },function(){
-	                    console.log('failed');
-	                });
 	            }
 	         
 	            
@@ -314,32 +334,9 @@
     	utils.daterangepicker();
         
     });
-</script>
+	</script>
 
 
-
-<script type="text/javascript">
-$("#updateBtn").click(function() {
-	
-    //获取表单验证状态
-  /*   if (!$("#updateSysRole").valid()) {
-        return;
-    } */
-	 $.post("/secKillProductMain/add", $("#addKill").serialize(),
-    function(data) {
-        if (data) {
-            $('#myModal').modal('toggle');
-            $("#startDate").val('');
-            $("#killPrice").val('');
-         
-            bootbox.alert('操作成功！');
-
-        } else {
-            bootbox.alert('操作失败！');
-        }
-    });
-});
-</script>
 
 
 </body>

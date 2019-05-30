@@ -25,8 +25,8 @@ import javax.sql.DataSource;
  * @author lsl
  * @date 2016/8/12
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class MybatisConfig implements TransactionManagementConfigurer{
     @Resource(name = "dataSource")
     DataSource dataSource;
