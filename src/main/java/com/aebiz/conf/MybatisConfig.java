@@ -59,7 +59,7 @@ public class MybatisConfig implements TransactionManagementConfigurer{
         pageHelper.setProperties(properties);
 
         //添加插件
-        bean.setPlugins(new Interceptor[]{pageHelper});
+       // bean.setPlugins(new Interceptor[]{pageHelper});
 
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

@@ -33,6 +33,7 @@ import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aebiz.entity.TestModel;
 import com.alibaba.fastjson.JSON;
 
 public class HttpClientUtils {
@@ -292,6 +293,48 @@ public class HttpClientUtils {
     public static void main(String[] args) {
         String body = get4Body("http://www.baidu.com");
         System.out.println(body);
+        
+        
+        TestModel test =new TestModel();
+        test.setName("2222222");
+        
+        String jsonString = JSON.toJSONString(test);
+        
+       // String jsonStr = "{'tel':'13696921193','content':'yebinghuai短信猫测试内容'}";
+        Map<String,String> headerMap =new HashMap<>();
+        
+        headerMap.put("Content-Type", "application/json");
+        
+        String postJson4Body = postJson4Body("http://localhost:8080/test/getList4", headerMap, jsonString);
+        
+        
+        System.out.println(postJson4Body);
+        
+        
+        
+        
+        
+        
+     //   HttpPost post = new HttpPost("http://127.0.0.1:8080/sms/SendSms?access_code=123");
+        //post.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");
+        
+     // post.setEntity(entity);
+        
+  /*      PostMethod post = new PostMethod("http://127.0.0.1:8080/sms/SendSms?access_code=123");
+        post.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");
+
+
+               String sTelContent = "{'tel':'15980920215,13696921193','content':'yebinghuai短信猫测试内容'}";
+               post.setRequestBody(sTelContent);
+               
+               
+        httpclient.executeMethod(post);
+        info = new String(post.getResponseBody(),"utf-8");
+        System.out.println(info);*/
+        
+        
+        
+        
     }
     
     static class HttpResponseBody {

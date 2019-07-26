@@ -1,0 +1,27 @@
+moveRules:
+  defaultDataSourceName: currentDB
+  
+  srcDataSource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.0.7:3306/b2b2c-ms-order?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: cc
+  targetDataSource:    
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.0.7:3306/b2b2c-ms-order?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: cc
+
+person:
+  lastName:  xx 
+  age: 1
+  boss: false
+  birth: 2017/12/12
+  lists:
+    - name: wiki
+      age: 3
+    - name: wiki2
+      age: 4
+  dog:
+      name: ss
+      age:  33       

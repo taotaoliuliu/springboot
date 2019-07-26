@@ -3,22 +3,30 @@ package com.aebiz.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.query.SortQueryBuilder;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aebiz.common.aop.Servicelock;
 import com.aebiz.common.websocket2.WebSocketServer;
 import com.aebiz.entity.Ad;
+import com.aebiz.entity.MoveRules;
+import com.aebiz.entity.Person;
 import com.aebiz.kafka.KafkaSender;
 import com.aebiz.service.AdService;
 import com.alibaba.fastjson.JSON;
@@ -29,7 +37,7 @@ import redis.clients.jedis.JedisPool;
 /**
  * @date 2016/8/9
  */
-@Controller
+@RestController
 @RequestMapping("/ad") 
 public class AdController {
 
@@ -42,6 +50,17 @@ public class AdController {
     @Autowired
     private JedisPool jedisPool;
     
+    @Autowired
+    StringRedisTemplate redisTemplate;
+    @Autowired
+    Person person;
+    @Autowired
+    MoveRules moveRules;
+    
+    
+   /* @Autowired
+    RedisTemplate<String,Ad> redisTemplate2;*/
+    
     @Servicelock
     public void sayHi(){
     	System.out.println("2222");
@@ -49,6 +68,48 @@ public class AdController {
     @ResponseBody
     @RequestMapping(value = "/pool")
     public String pool(){
+    	
+    	Ad ad =new Ad();
+    	ad.setContent("刘胜利");
+    	ad.setName("广告1111111111");
+    	
+    	
+   
+    	
+        	
+    	Set<String> keys = redisTemplate.keys("*");
+    	
+    	
+    	redisTemplate.boundValueOps("lsl").set("liushengli");
+    	
+      //  SortQueryBuilder<String> builder = SortQueryBuilder.sort(key);
+        
+      //  builder.
+
+      //  List<String> cks = redisTemplate.sort(builder.build());
+
+    	
+    //	redisTemplate.boundValueOps("lsl").
+    	
+    
+    
+    	redisTemplate.opsForValue().set("lslm", JSON.toJSONString(ad));
+    	
+    	String string2 = redisTemplate.opsForValue().get("lslm");
+    	
+    	
+    	Ad parseObject = JSON.parseObject(string2, Ad.class);
+    	
+    	System.out.println(parseObject);
+    	
+    	System.out.println(keys);
+    	
+    	
+    	String string = redisTemplate.boundValueOps("lsl").get();
+    	
+    	System.out.println(string);
+    	
+    	
     	
     	return jedisPool+"";
     }
@@ -161,6 +222,12 @@ public class AdController {
     	int aa=1/0;
 
     	return null;
+    }
+    
+    @RequestMapping(value = "/testyml")
+    public void test(){    	
+    	System.out.println(person);
+    	System.out.println(moveRules);
     }
     
     

@@ -37,13 +37,15 @@
                     showGreeting(JSON.parse(greeting.body).content);  
                 });
   
-              stompClient.subscribe('/user/lsl/demo3/greetings',function(greeting){  
+            /*   stompClient.subscribe('/user/lsl/demo3/greetings',function(greeting){  
                     alert(JSON.parse(greeting.body).content);  
                     showGreeting4(JSON.parse(greeting.body).content);  
-                });
+                }); */
                 
                 stompClient.subscribe('/user/topic/toMyUser',function(greeting){  
-                    alert(JSON.parse(greeting.body).content);  
+                    alert(JSON.parse(greeting.body).content); 
+                    
+                    alert("11111")
                     showGreeting(JSON.parse(greeting.body).content);  
                 });  
                 
@@ -65,8 +67,12 @@
             stompClient.send("/app/sendToUser", {}, JSON.stringify({ 'name': name }));  
         }  
         
+        
+        // 模拟个人和个人聊天 这个 #sendToUser 不行
         function sendmessage2() {  
             var name = document.getElementById('message2').value;  
+            
+            //1 detion 2 heads  3 body
             stompClient.send("/app/sendWithFunction", {}, JSON.stringify({ 'name': name }));  
             
             

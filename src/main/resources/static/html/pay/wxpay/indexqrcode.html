@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../../../js/qrcode.js"></script>
+</head>
+<body>
+
+
+<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
+</body>
+
+
+<script type="text/javascript">
+
+	  
+	  
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 200,
+	height : 200
+});
+
+function makeCode () {		
+	
+	
+	qrcode.makeCode("http://www.zuidaima.com/");
+}
+
+makeCode();	  
+
+</script>
+</html>

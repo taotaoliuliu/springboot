@@ -1,0 +1,36 @@
+moveRules:  
+  srcDataSource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://114.115.159.218:3307/b2b-deli-product?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: cc
+      querysql:
+       - select uuid as id,productName as name,skuNo from goods_sku
+  targetDataSource:    
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3307/test?useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: 
+      targetTables:
+       - t_testmovedata
+
+
+
+
+
+
+
+
+person:
+  lastName:  xx 
+  age: 1
+  boss: false
+  birth: 2017/12/12
+  lists:
+   - name: wiki
+     age: 3
+   - name: wiki2
+     age: 4
+  dog:
+      name: ss
+      age:  33       

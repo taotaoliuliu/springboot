@@ -1,11 +1,11 @@
 package com.aebiz.schedule.utils;
 
+import java.lang.reflect.Method;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ReflectionUtils;
 
-import com.aebiz.common.config.SpringUtil;
-
-import java.lang.reflect.Method;
+import com.aebiz.common.utils.SpringUtil;
 
 /**
  * 执行定时任务

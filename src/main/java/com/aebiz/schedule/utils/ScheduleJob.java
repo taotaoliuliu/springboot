@@ -1,6 +1,5 @@
 package com.aebiz.schedule.utils;
 
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -12,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.aebiz.common.config.SpringUtil;
 import com.aebiz.common.utils.DateUtil;
+import com.aebiz.common.utils.SpringUtil;
 import com.aebiz.schedule.entity.ScheduleJobEntity;
 import com.aebiz.schedule.entity.ScheduleJobLogEntity;
 import com.aebiz.schedule.service.ScheduleJobLogService;

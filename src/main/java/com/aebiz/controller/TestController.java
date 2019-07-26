@@ -106,7 +106,7 @@ public class TestController {
 
 		System.out.println(model);
 		System.out.println(model.getSkuMap());
-		return "";
+		return JSON.toJSONString(model);
 	}
 
 	@RequestMapping(value = "/getList5")

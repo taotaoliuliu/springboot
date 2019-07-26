@@ -66,12 +66,39 @@ public class GreetingController {
     	template.convertAndSendToUser("lsl", "/message", new Greeting("I am a msg from SubscribeMapping('/macro')."));  
         return new Greeting("I am a msg from SubscribeMapping('/macro').");  
     }  
+    
+    
+    
+    /**
+     * 实现一对一
+     * @return
+     */
     @MessageMapping("/sendToUser") 
     @SendToUser(value="/topic/toMyUser",broadcast=false)
     public Greeting send22222() {  
     	System.out.println("#######");
     	//template.convertAndSendToUser("lsl", "/topic/toMyUser", new Greeting("I am a msg from SubscribeMapping('/macro')."));  
     	return new Greeting("I am a msg from SubscribeMapping('/macro').");  
+    	
+    	
+    	/**
+    	 * 我给服务器发送 服务器只给我发送 不给其他用户发送
+    	 * 
+    	 *   var name = document.getElementById('message').value;  
+            stompClient.send("/app/sendToUser", {}, JSON.stringify({ 'name': name }));  
+            
+            
+            
+            
+    	 * 
+    	 *   stompClient.subscribe('/user/topic/toMyUser',function(greeting){  
+                    alert(JSON.parse(greeting.body).content); 
+                    
+                    alert("11111")
+                    showGreeting(JSON.parse(greeting.body).content);  
+                });  
+    	 * 
+    	 */
     }  
     
     
@@ -98,6 +125,12 @@ public class GreetingController {
     
     
     
+    /**
+     * 一对一通信
+     * @param destUsername
+     * @return
+     * @throws Exception
+     */
     
     //实现点对点点 通讯   stompClient.send("/app/demo3/hello/"
     @MessageMapping("/demo3/hello/{destUsername}")
@@ -118,6 +151,12 @@ public class GreetingController {
         return new Greeting("系统");
     } 
     
+    
+    
+    
+    
+    
+    // //实现对用户主动推送  前提是认证用户
     @RequestMapping("sendToOne")
     public String sayHi(){
     	
@@ -128,6 +167,18 @@ public class GreetingController {
       	   System.out.println("用户" + i++ + "---" + user);
          }
     	template.convertAndSendToUser("lsl", "/demo3/greetings", new Greeting("I am a msg from SubscribeMapping('/macro')."));
+    	
+    //	template.con
+    	
+    	/**
+    	 * 
+    	 * 
+    	 * 
+    	 *     stompClient.subscribe('/user/lsl/demo3/greetings',function(greeting){  
+                    alert(JSON.parse(greeting.body).content);  
+                    showGreeting4(JSON.parse(greeting.body).content);  
+                });
+    	 */
 
     	return "aaaa";
     }

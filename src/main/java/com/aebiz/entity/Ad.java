@@ -11,6 +11,11 @@ import com.aebiz.common.exception.MalciousException;
  */
 public class Ad extends BaseModel{
 	
+	public static final String INDEX_NAME="ad";
+	
+	public static final String TYPE_NAME="ad";
+
+	
 	/**
 	 * 商品skuUuid
 	 */

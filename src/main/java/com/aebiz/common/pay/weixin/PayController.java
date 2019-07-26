@@ -14,6 +14,13 @@ import com.alibaba.fastjson.JSONObject;
 public class PayController {
 
 	
+	
+	
+	/**
+	 * 公众号支付
+	 * @param code
+	 * @param orderId
+	 */
 	@RequestMapping("/auth")
 	public void auth(@RequestParam("code") String code,String orderId){
 		

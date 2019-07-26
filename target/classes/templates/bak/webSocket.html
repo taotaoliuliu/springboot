@@ -61,7 +61,9 @@
                 
                 
                 stompClient.subscribe('/user/topic/toMyUser2',function(greeting){  
-                    alert(JSON.parse(greeting.body).content);  
+                    alert(JSON.parse(greeting.body).content); 
+                    
+                    alert("3333")
                     showGreeting(JSON.parse(greeting.body).content);  
                 });  
             });  
@@ -159,6 +161,7 @@
     
     
     <div id="conversationDiv3">  
+    	给指定人发送信息
         <label>What is your message?</label><input type="text" id="message2" />  
         <button id="sendmessage2" onclick="sendmessage2();">Send</button>  
         <p id="response3"></p>  
