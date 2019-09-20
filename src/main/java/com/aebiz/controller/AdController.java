@@ -32,6 +32,8 @@ import com.aebiz.service.AdService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import redis.clients.jedis.JedisPool;
 
 /**
@@ -39,6 +41,7 @@ import redis.clients.jedis.JedisPool;
  */
 @RestController
 @RequestMapping("/ad") 
+@Api(value="广告管理xxxx",description="xxxxxxxxx")
 public class AdController {
 
     private Logger logger = LoggerFactory.getLogger(AdController.class);
@@ -145,6 +148,7 @@ public class AdController {
 	}
     @ResponseBody
     @RequestMapping(value = "/getAdPage")
+    @ApiOperation(value="获取广告列表", notes="获取图书列表")
     public Map<String, Object> getAdPage(@RequestParam(value="pageNum")Integer pageNum, @RequestParam(value="pageSize")Integer pageSize,Ad ad) 
 	{			
 		PageInfo<Ad> mem = adService.getAdPage(pageNum, pageSize, ad);
@@ -152,11 +156,16 @@ public class AdController {
 		map.put("ad", mem);
 		map.put("totalSize", mem.getTotal());
 		map.put("totalPage", mem.getPages());
+		
+		logger.error("22222222");
+
 		return map;
 	}
     @ResponseBody
     @RequestMapping(value = "/addAd")
     public Map<String,String> addAd(Ad ad){
+    	
+    	System.out.println("222222222222222");
 		Map<String, String> map = new HashMap<String, String>();
 
     	ad.setUuid(UUID.randomUUID().toString());

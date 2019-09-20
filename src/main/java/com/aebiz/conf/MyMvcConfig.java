@@ -123,7 +123,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 	 */
 	@Bean
 	public FilterRegistrationBean filterRegistration() {
-		FilterRegistrationBean registration = new FilterRegistrationBean(new XssFilter());
+		FilterRegistrationBean registration = new FilterRegistrationBean(null);
 		// filter只能配置"/*","/**"无法识别
 		registration.addUrlPatterns("/admin/*");
 		return registration;

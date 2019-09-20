@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,16 +95,19 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/getList3")
-	public String getList3(TestModel model,TestModel2 model2) {
+	public String getList3(TestModel model) {
 
 		System.out.println(model);
-		System.out.println(model2);
 		return "";
 	}
 
+	
+	
+	
 	@RequestMapping(value = "/getList4")
 	public String getList4(@RequestBody TestModel model) {
-
+		
+		//ReentrantLock
 		System.out.println(model);
 		System.out.println(model.getSkuMap());
 		return JSON.toJSONString(model);
@@ -138,7 +142,16 @@ public class TestController {
 	}
 	
 	
-	@RequestMapping(value = "/getList6")
+	
+	
+	
+	/**
+	 * {}  占位符 
+	 * @param name
+	 * @param mobile
+	 * @return
+	 */
+	@RequestMapping(value = "/getList6/{name}/{mobile}")
 	public String getList6(@PathVariable String name,@PathVariable String mobile) {
 
 		System.out.println(name);

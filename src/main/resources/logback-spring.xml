@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>  
-<configuration>  
-    <logger name="org.apache.kafka.clients.NetworkClient" level="ERROR" />
+<configuration> 
+
+ <!--打印东西太多了  级别提高一点-->   
+<logger name="org.apache.kafka.clients.NetworkClient" level="ERROR" />
     
-    
+  <!-- 输出mysql 运行sql语句-->  
 <logger name="com.aebiz.mapper" level="DEBUG"></logger>
 
   
-    <!-- 控制台日志：输出全部日志到控制台 -->  
+    <!-- 控制台日志：输出全部日志到控制台  DEBUG<INFO<WARN<ERROR<FATAL-->  
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">  
         <!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->  
         <encoder>  
@@ -28,6 +30,9 @@
             </pattern>  
         </encoder>  
     </appender>  
+  
+  
+   <!--全局打印级别-->   
   
     <root level="INFO">  
         <appender-ref ref="STDOUT" />    

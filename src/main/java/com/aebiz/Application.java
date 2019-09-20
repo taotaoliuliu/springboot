@@ -29,6 +29,9 @@ import com.aebiz.conf.FilterForBaseframework;
 //@ImportResource(locations= {"classpath:applicationContext-tx.xml","classpath:applicationContext-elasticsearch.xml"})
 @ImportResource(locations= {"classpath:platform-scheduler.xml","classpath:spring-im-config.xml"})
 @EnableAsync
+
+
+
 public class Application
 {
 	

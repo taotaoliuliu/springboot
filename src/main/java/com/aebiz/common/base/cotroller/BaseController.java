@@ -1,6 +1,8 @@
 package com.aebiz.common.base.cotroller;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,8 @@ import com.aebiz.common.base.service.BaseService;
 import com.aebiz.common.bean.Result;
 import com.aebiz.entity.Ad;
 import com.github.pagehelper.PageInfo;
+
+import io.swagger.annotations.ApiOperation;
 
 public class BaseController<T  extends BaseModel> {
 
@@ -69,7 +73,50 @@ public class BaseController<T  extends BaseModel> {
 		myService.add(t);
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 修改
+	 * @param t
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping(value = "/update")
+	public Result  update(T t) {
+		Result result=new Result();
+		result.setRetStatus(Result.SUCCESS);
+		myService.update(t);
+		return result;
+	}
+	
+	
+	
+	/**
+	 * 删除
+	 * @param t
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping(value = "/deleteByUuid")
+	public Result  deleteByUuid(String uuid) {
+		Result result=new Result();
+		result.setRetStatus(Result.SUCCESS);
+		myService.delete(uuid);
+		return result;
+	}
+	
 
+	
+	/**
+	 * 获取分页数据
+	 * @param pageNum
+	 * @param pageSize
+	 * @param t
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getListPage")
 	public Map<String, Object> getListPage(@RequestParam(value = "pageNum") Integer pageNum,
@@ -87,6 +134,29 @@ public class BaseController<T  extends BaseModel> {
 		return map;
 
 	}
+	
+	
+		public Class getRealType(){
+			// 获取当前new的对象的泛型的父类类型
+			ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
+			// 获取第一个类型参数的真实类型
+			this.clazz = (Class<T>) pt.getActualTypeArguments()[0];
+			return clazz;
+		}
+	
+	
+	/**T
+	 * 获取所有数据 list
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getAll")
+	public List<T> getAll(T t){
+		List<T> list = myService.getByCondition(t);
+		return list;
+	}
+	
+	
+	
 
 	
 

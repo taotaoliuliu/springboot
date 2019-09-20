@@ -39,7 +39,7 @@ public interface BaseService<M extends BaseModel> {
 	 * @param id
 	 * @throws Exception
 	 */
-	public void delete(String id);
+	public void delete(String uuid);
 
 	/**
 	 * 更新数据

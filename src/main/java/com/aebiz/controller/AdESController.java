@@ -74,6 +74,8 @@ public class AdESController {
 		map.put("ad", mem);
 		map.put("totalSize", mem.getTotal());
 		map.put("totalPage", mem.getPages());
+		
+		logger.error("22222222");
 		return map;
 	}
     @RequestMapping(value = "/addAd")

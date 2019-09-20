@@ -69,4 +69,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
       //  exceptionResolvers.add(0, new MyExceptionHandler());
      ///   exceptionResolvers.add(new MyExceptionHandler());
     }
+	
+	 @Override
+	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	        registry.addResourceHandler("swagger-ui.html")
+	                .addResourceLocations("classpath:/META-INF/resources/");
+	        registry.addResourceHandler("/webjars/**")
+	                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+	    }
+
 }

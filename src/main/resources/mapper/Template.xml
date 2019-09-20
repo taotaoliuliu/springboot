@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aebiz.mapper.TemplateMapper">
+	<!--开启二级缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->    <!--根据id查询用户详情 -->
+	<select id="getById" parameterType="string" resultType="com.aebiz.entity.decoration.Template">
+		SELECT *
+		FROM template WHERE uuid=#{uuid}
+	</select>
+
+	<select id="getByCondition" parameterType="Object" resultType="com.aebiz.entity.decoration.Template">
+		SELECT * FROM template where 1=1 
+		
+						<if test="templateName != null and templateName != ''">
+		and  templateName like '%${templateName}%'
+			</if>
+
+	</select>
+
+	<insert id="add" parameterType="Object">
+		insert into template(uuid,
+		templateName,
+		note
+		)
+		values(#{uuid},#{templateName},#{note})
+
+
+	</insert>
+
+	<update id="updateTemplate" parameterType="Object">
+		update template set templateName=#{templateName} , note=#{note} where uuid=#{uuid}
+
+	</update>
+
+
+	<delete id="deleteTemplate" parameterType="Object">
+
+		delete from template where uuid='${uuid}'
+
+
+	</delete>
+
+
+
+</mapper>

@@ -5,10 +5,15 @@ import java.io.Serializable;
 import com.aebiz.common.base.model.BaseModel;
 import com.aebiz.common.exception.MalciousException;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 用户实体类
  * @date 2016/8/12
  */
+
+@ApiModel(value = "广告实体类")
 public class Ad extends BaseModel{
 	
 	public static final String INDEX_NAME="ad";
@@ -25,6 +30,7 @@ public class Ad extends BaseModel{
 	/**
 	 * 广告名称
 	 */
+	@ApiModelProperty(value = "广告名称")
 	private String name;
 	
 	/**

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- elementUI2.2 -->
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="http://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<style type="text/css">
+.search-button {
+	margin-top: 10px;
+}
+
+.search-content {
+	margin-top: 50px;
+	border-bottom: 1px solid #E4E3E8
+}
+
+.pull-right {
+	float: right;
+	padding-right: 40px;
+}
+</style>
+</head>
+<body>
+	<div id="test">
+		<div id="top">
+			<span> </span>
+		</div>
+
+		<el-form :inline="true" :model="form" class="demo-form-inline">
+
+		<div class="search-content">
+
+			<el-form-item label="审批人"> <el-input type="text"
+				v-model="form.name" placeholder="审批人"></el-input> </el-form-item>
+			<el-form-item label="活动区域"> <el-select
+				v-model="form.content" placeholder="活动区域"> <el-option
+				label="区域一" value="shanghai"></el-option> <el-option label="区域二"
+				value="beijing"></el-option> </el-select> </el-form-item>
+		</div>
+
+
+		<div class="search-button">
+
+			<el-form-item> <el-button type="primary"
+				@click="loadData">查询</el-button> </el-form-item>
+
+
+			<el-form-item class="pull-right"> <el-button
+				type="primary" @click="handleadd">添加</el-button> </el-form-item>
+
+		</div>
+
+		</el-form>
+
+
+
+
+		<div style="margin-top: 1px">
+
+
+			<el-table ref="testTable" :data="dataList" style="width:100%" border>
+
+
+
+			<el-table-column prop="uuid" label="uuid" show-overflow-tooltip></el-table-column>
+			 <el-table-column prop="templateName" label="模板名称" sortable show-overflow-tooltip> </el-table-column>
+			 
+			  <el-table-column prop="note" label="内容" show-overflow-tooltip> </el-table-column>
+
+			<el-table-column label="操作" width="300"> 
+			<template scope="scope"> 
+			<el-button type="primary"
+				icon="el-icon-edit" circle @click="handleupdate($event,scope.row)">
+			</el-button> 
+			
+			<el-button type="danger" icon="el-icon-delete" circle @click="deleteAd($event,scope.row)">
+			
+			</el-button> 
+			
+				<a :href="'templatepage.html?templateUuid='+scope.row.uuid" icon="el-icon-delete" circle @click="">
+			页面管理
+			</a> 
+				
+				</template> </el-table-column> </el-table>
+
+
+			<div align="center">
+				<el-pagination @size-change="handleSizeChange"
+					background
+					@current-change="handleCurrentChange"
+					:current-page.sync="currentPage" :page-sizes="[5,10,20]"
+					:page-size="pagesize"
+					layout=" sizes,prev, pager, next,  jumper,   total"
+					:total="totalSize"> </el-pagination>
+
+
+			</div>
+		</div>
+
+
+		<el-dialog title="添加任务" :visible.sync="dialogVisibleAdd" width="30%"
+			center @close='closeDialog'>
+			 <el-form :model="form"
+			label-width="80px" width="40%"> 
+			
+			<el-form-item label="模板名字">
+			
+		<el-input v-model="form.templateName" auto-complete="off"></el-input>
+		
+		 </el-form-item> 
+		 <el-form-item
+			label="模板描述"> <el-input type="textarea"
+			v-model="form.note" auto-complete="off"></el-input>
+			
+			 </el-form-item>
+
+
+		<div slot="footer" class="dialog-footer">
+			<el-button @click="dialogVisibleAdd = false">取 消</el-button>
+			<el-button type="primary" @click="add">确 定</el-button>
+		</div>
+
+
+		<el-form-item> <el-button type="primary" @click="add">确定</el-button>
+		<el-button @click="dialogVisibleAdd = false">取消</el-button> </el-form-item> </el-form> </el-dialog>
+
+
+
+
+		<el-dialog title="修改广告" :visible.sync="dialogVisibleUpdate"
+			width="30%" center @close='closeDialog'> <el-form
+			:model="form" label-width="80px" width="40%"> <el-input
+			v-model="form.uuid" type="hidden" value="sku0000000001"
+			auto-complete="off"></el-input> <el-form-item label="名字">
+		<el-input v-model="form.name" auto-complete="off"></el-input> </el-form-item> <el-form-item
+			label="内容"> <el-input type="textarea"
+			v-model="form.content" auto-complete="off"></el-input> </el-form-item>
+
+
+		<div slot="footer" class="dialog-footer">
+			<el-button @click="dialogVisibleAdd = false">取 消</el-button>
+			<el-button type="primary" @click="add">确 定</el-button>
+		</div>
+
+
+		<el-form-item> <el-button type="primary"
+			@click="update">确定</el-button> <el-button
+			@click="dialogVisibleUpdate = false">取消</el-button> </el-form-item> </el-form> </el-dialog>
+
+	</div>
+
+
+
+
+
+</body>
+
+<script type="text/javascript">
+	var vue = new Vue({
+		el : "#test",
+		data : {
+			dataList : [],
+			url : 'mem/getMem',
+			//默认每页数据量
+			pagesize : 5,
+
+			//当前页码
+			currentPage : 1,
+
+			//查询的页码
+			start : 1,
+
+			//默认数据总数
+			totalSize : 1000,
+			//添加对话框默认可见性
+			dialogFormVisible : false,
+			dialogVisibleAdd : false,
+			dialogVisibleUpdate : false,
+			//提交的表单
+			form : {
+				templateName : '',
+				note : '',
+				uuid:''
+			},
+
+		},
+		methods : {
+
+			loadData : function() {
+
+				var data = {
+					"pageNum" : this.currentPage,
+					"pageSize" : this.pagesize,
+					"name" : this.form.name
+				};
+
+				this.$http.get('/template/getListPage', {
+					params : data
+				}).then(function(res) {
+					this.dataList = res.body.page.list;
+					this.totalSize = res.body.totalSize;
+					this.totalPage = res.body.totalPage;
+					this.pageNow=res.body.page.pageNum;
+				}, function() {
+					console.log('failed');
+				});
+			},
+			//弹出对话框
+			handleadd : function() {
+				//alert("aa");
+				vue.dialogFormVisible = true;
+				vue.dialogVisibleAdd = true;
+
+			},
+			
+			handleupdate : function(event,item) {
+				//alert("aa");
+				vue.dialogFormVisible = true;
+				vue.dialogVisibleUpdate = true;
+				this.form.uuid=item.uuid;
+				this.form.name=item.name;
+				this.form.content=item.content;
+				console.log(item);
+
+			},
+			closeDialog : function() {
+				this.form = {};
+
+			},
+
+			//添加
+			add : function() {
+				this.$http.post('/template/add', this.form, {
+					emulateJSON : true
+				}).then(function(res) {
+					this.form = {};
+
+					this.loadData(this.currentPage, this.pagesize);
+					this.dialogFormVisible = false;
+					this.dialogVisibleAdd = false;
+				}, function() {
+					console.log('failed');
+				});
+			},
+			//修改
+			update : function() {
+				this.$http.post('/ad/updateAd', this.form, {
+					emulateJSON : true
+				}).then(function(res) {
+					this.form = {};
+
+					this.loadData(this.currentPage, this.pagesize);
+					this.dialogFormVisible = false;
+					this.dialogVisibleUpdate = false;
+				}, function() {
+					console.log('failed');
+				});
+			},
+			//删除
+			deleteAd : function(event,item) {
+				
+				
+				
+				this.form.uuid=item.uuid;
+				
+				
+				
+				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }).then(function(){
+			        	
+			        
+			        	
+			        	vue.$http.post('/ad/deleteAd', {"uuid":item.uuid}, {
+							emulateJSON : true
+						}).then(function(res) {
+							this.form = {};
+
+							this.loadData(this.currentPage, this.pagesize);
+							this.dialogFormVisible = false;
+							this.dialogVisibleUpdate = false;
+						}, function() {
+							console.log('failed');
+						});
+			        	
+			        	
+			        	vue.$message({
+			            type: 'success',
+			            message: '删除成功!'
+			          });
+			        }).catch(function(){
+			          vue.$message({
+			            type: 'info',
+			            message: '已取消删除'
+			          });          
+			        });
+
+			
+			},
+			
+			//每页显示数据量变更
+			handleSizeChange : function(val) {
+				this.pagesize = val;
+				this.loadData(this.currentPage, this.pagesize);
+			},
+
+			//页码变更
+			handleCurrentChange : function(val) {
+				this.currentPage = val;
+				this.loadData(this.currentPage, this.pagesize);
+			},
+		}
+
+	});
+
+	//载入数据
+	vue.loadData();
+</script>
+</html>

@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
  * 非法字符过滤器（防SQL注入，防XSS漏洞）
  * @author CZH
  */
-public class XssFilter implements Filter {
-	private static final Logger logger = LoggerFactory.getLogger(XssFilter.class);
+public class XssFilter{ // implements Filter {
+/*	private static final Logger logger = LoggerFactory.getLogger(XssFilter.class);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filter) throws IOException, ServletException {
@@ -71,11 +71,11 @@ public class XssFilter implements Filter {
 	public void destroy() {
 	}
 
-	/**
+	*//**
 	 * 将容易引起xss漏洞的半角字符直接替换成全角字符
 	 * @param str
 	 * @return
-	 */
+	 *//*
 	private String xssEncode(String str) {
 		if (StringUtils.isEmpty(str)) {
 			return str;
@@ -119,12 +119,12 @@ public class XssFilter implements Filter {
 		return sb.toString();
 	}
 
-	/**
+	*//**
 	 * 
 	 * 检查是否存在非法字符，防止SQL注入
 	 * @param str 被检查的字符串
 	 * @return ture-字符串中存在非法字符，false-不存在非法字符
-	 */
+	 *//*
 	public static boolean checkSQLInject(String str, String url) {
 		if (StringUtils.isEmpty(str)) {
 			return false;// 如果传入空串则认为不存在非法字符
@@ -144,5 +144,5 @@ public class XssFilter implements Filter {
 			}
 		}
 		return false;
-	}
+	}*/
 }
